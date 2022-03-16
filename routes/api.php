@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/demo',function(){
     return "From Lina's Api";
 });
+
+Route::post('/category',[CategoryController::class, 'store']);
