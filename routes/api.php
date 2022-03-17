@@ -1,4 +1,5 @@
 <?php
+use App\Http\Models\Category;
 
 use App\Http\Controllers\api\CategoryController;
 use Illuminate\Http\Request;
@@ -23,4 +24,4 @@ Route::get('/demo',function(){
     return "From Lina's Api";
 });
 
-Route::post('/category',[CategoryController::class, 'store']);
+Route::post('/categories',[CategoryController::class, 'store']);
