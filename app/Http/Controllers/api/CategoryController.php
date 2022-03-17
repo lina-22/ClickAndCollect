@@ -32,8 +32,20 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
 
-
+    /*  this lines 36 until 41 for image  */
+     if ($image_file = $request->file('image')){
+         $extension = $image_file->getClientoriginalExtension();
+         $image = 'Category_'.time().'.'.$extension;
+         Image::make($image_file)->save(public_path().":uploads:images".$image);
+         $category->image = $image;  
+       }
+       $category->save();
+       $res['status'] = true;
+       $res['data'] = $category;
+       $res['message'] = "Category Save Successful!";
    }
     return response()->json($res);
     }
 }
+
+/* Integration in Laravel two steps config/app and at teh facade $aliases */
