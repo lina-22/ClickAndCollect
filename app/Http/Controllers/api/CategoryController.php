@@ -10,6 +10,27 @@ use Image;
 
 class CategoryController extends Controller
 {
+    public function showAll(){
+        $res = [
+            'status' => 'false',
+            'data' => 'null',
+            'message' => ''
+        ];
+
+        $categories = Category:: all();
+        
+        if($categories->count()>0){
+            $res['status'] = true;
+            $res['data'] = $categories;
+            $res['message'] = 'Category Load Success!';
+        }else{
+            $res['message'] = 'No Category found!';
+        }
+
+        return response()->json($res);
+        
+    }
+
 
     public function store(Request $request){
   
