@@ -148,7 +148,7 @@ class CategoryController extends Controller
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
             $res['status'] = true;
             $res['data'] = $category;
-            $res['message'] = "Category delete Succefull!";
+            $res['message'] = "Category delete Succefully!";
 
         }
         return response()->json($res);

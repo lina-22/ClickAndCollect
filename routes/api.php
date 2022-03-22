@@ -20,8 +20,11 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/demo',function(){
-    return "From Lina's Api";
-});
-
-Route::post('/categories',[CategoryController::class, 'store']);
+// Route::get('/demo',function(){
+//     return "From Lina's Api";
+// });
+Route::get('categories', [CategoryController::class, 'showAll']);
+Route::get('categories/{id}', [CategoryController::class, 'showSingle']);
+Route::post('categories', [CategoryController::class, 'store']);
+Route::put('categories/{id}', [CategoryController::class, 'update']);
+Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
