@@ -31,6 +31,24 @@ class CategoryController extends Controller
         
     }
 
+    public function showSingle($id){
+        $res = [
+            'status' => 'false',
+            'data' => 'null',
+            'message' => ''
+        ];
+
+        $category = Category::find($id);
+        
+        if($category){
+            $res['status'] = true;
+            $res['data'] = $category;
+            $res['message'] = 'Category Load Success!';
+        }else{
+            $res['message'] = 'Category not found!';
+        }
+        return response()->json($res);       
+    }
 
     public function store(Request $request){
   
