@@ -67,11 +67,11 @@ class CategoryController extends Controller
       /* for name  */      
       if($validator->fails()){
         $res['message'] = $validator->errors()->first();
-    }else{
+     }else{
         $category = new Category();
         $category->name = $request->name;
 
-    /*  this lines 36 until 41 for image  */
+     /*  this lines 36 until 41 for image  */
      if ($image_file = $request->file('image')){
          $extension = $image_file->getClientoriginalExtension();
          $image = 'Category_'.time().'.'.$extension;
@@ -82,10 +82,11 @@ class CategoryController extends Controller
        $res['status'] = true;
        $res['data'] = $category;
        $res['message'] = "Category Save Successful!";
-   }
-    return response()->json($res);
+     }
+     return response()->json($res);
     }
 
+    
     public function update(Request $request, $id){
   
         // here from 14 lines until 19 lines by dafault shift/alt/A by this way alo can comment
@@ -103,14 +104,14 @@ class CategoryController extends Controller
       /* for name  */      
       if($validator->fails()){
         $res['message'] = $validator->errors()->first();
-    }else{
+      }else{
         $category = Category::find($id);
         if(!$category){
             $res['message'] = 'Category Not Found';
         }else{
         $category->name = $request->name;
 
-    /*  this lines 36 until 41 for image  */
+     /*  this lines 36 until 41 for image  */
      if ($image_file = $request->file('image')){
          if (file_exists(public_path().":uploads:images".$category->image)){
              @unlink(public_path().":uploads:images".$category->image);
@@ -124,12 +125,12 @@ class CategoryController extends Controller
        $res['status'] = true;
        $res['data'] = $category;
        $res['message'] = "Category updated Successful!";
-    }
-   }
-    return response()->json($res);
-    }
+     }
+     }
+     return response()->json($res);
+     }
 
-    public function destroy($id){
+     public function destroy($id){
         $res = [
             'status' => false,
             'data' => null,
