@@ -164,7 +164,7 @@ class ProductController extends Controller
         $pruduct = Product::find($id);
 
         if (!$pruduct) {
-            $res['message'] = 'Category not found';
+            $res['message'] = 'Product not found';
         } else {
             if (file_exists(public_path() . "/uploads/images" . $pruduct->image)) {
                 @unlink(public_path() . "/uploads/images" . $$pruduct->image);
@@ -174,7 +174,7 @@ class ProductController extends Controller
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
             $res['status'] = true;
             $res['data'] = $pruduct;
-            $res['message'] = "Category delete Succefull!";
+            $res['message'] = "Product delete Succefull!";
         }
         return response()->json($res);
     }

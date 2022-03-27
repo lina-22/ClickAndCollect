@@ -100,7 +100,7 @@ class CategoryController extends Controller
             // 5. we need to save the category variable
             $category->save();
  
-            // ** i write this line for after make the relationship between many to many(Postman a arry akara jeta dekcilam ata akany add kora dicy)
+            // ** i write this line after make the relationship between many to many(Postman a arry akara jeta dekcilam ata akany add kora dicy)
             $category->products()->sync($request->products);
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
             $res['status'] = true;
@@ -207,7 +207,3 @@ class CategoryController extends Controller
 }
 
 
-
-
-
-/* Integration in Laravel two steps config/app and at teh facade $aliases */

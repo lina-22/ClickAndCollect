@@ -23,6 +23,18 @@ class ProductResource extends JsonResource
             ];
             array_push($categories, $data);
         }
+
+        $availables = [];
+        foreach($this->availables as $available){
+            $data = [
+                'id' => $available->id,
+                'colour' => $available->colour,
+                'quantity' => $available->quantity,
+                'size' => $available->size,
+            ];
+            array_push($availables, $data);
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -31,7 +43,8 @@ class ProductResource extends JsonResource
             'totalPrice' => round($this->price-$this->price* $this->discount/100, 2),
             'description' => $this->description,
             'image' => $this->image,
-            'categories' => $categories
+            'categories' => $categories,
+            'availables' => $availables
         ];
     }
 }

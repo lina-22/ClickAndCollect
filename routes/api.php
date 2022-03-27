@@ -1,9 +1,9 @@
 <?php
-
-use App\Http\Models\Category;
-
 use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\ProductAvailableController;
 use App\Http\Controllers\api\ProductController;
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,20 +22,29 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-// Route::get('/demo',function(){
-//     return "From Lina's Api";
-// });
+Route::get('/demo', function(){
+    return "From Api";
+});
 
-                       // Routes for categoris
+                        // Routes for categoris
 Route::get('categories', [CategoryController::class, 'showAll']);
 Route::get('categories/{id}', [CategoryController::class, 'showSingle']);
 Route::post('categories', [CategoryController::class, 'store']);
 Route::put('categories/{id}', [CategoryController::class, 'update']);
 Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
 
-                        // Routes for products
+                       // Routes for products
 Route::get('products', [ProductController::class, 'showAll']);
-Route::get('products/{id}', [ProductController::class, 'showSingle']); 
+Route::get('products/{id}', [ProductController::class, 'showSingle']);
 Route::post('products', [ProductController::class, 'store']);
 Route::put('products/{id}', [ProductController::class, 'update']);
 Route::delete('products/{id}', [ProductController::class, 'destroy']);
+
+                       // Routes for productAvailable
+Route::get('productsAvailable', [ProductAvailableController::class, 'showAll']);
+Route::get('productsAvailable/{id}', [ProductAvailableController::class, 'showSingle']);
+Route::post('productsAvailable', [ProductAvailableController::class, 'store']); 
+Route::put('productsAvailable/{id}', [ProductAvailableController::class, 'update']);
+Route::delete('productsAvailable/{id}', [ProductAvailableController::class, 'destroy']);
+ 
+
