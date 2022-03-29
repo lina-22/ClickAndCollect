@@ -24,7 +24,8 @@ class ProductController extends Controller
 
         if ($products->count() > 0) {
             $res['status'] = true;
-            $res['data'] = $products;
+            // $res['data'] = $products;
+            $res['data'] = ProductResource::collection($products);
             $res['message'] = 'Products show succefully';
         } else {
             $res['message'] = 'Products not found';
@@ -50,6 +51,7 @@ class ProductController extends Controller
         if ($product) {
             $res['status'] = true;
             $res['data'] = new ProductResource($product);
+          
             $res['message'] = 'Product found successfully';
         } else {
             $res['message'] = 'Product not found';
@@ -94,10 +96,10 @@ class ProductController extends Controller
             $product->description = $request->description;
 
             $product->save();
-
-            $product->categories()->sync($request->categories);
+            //  created new unction as attach category so, ai line ta sync ata akany r dibo na 29/03/2022
+            // $product->categories()->sync($request->categories);
             $res['status'] = true;
-            $res['data'] = $product;
+            $res['data'] = new ProductResource($product);
             $res['message'] = "Product Save Succefull!";
         }
 
@@ -144,12 +146,38 @@ class ProductController extends Controller
                 }
                 $product->save();
                 $res['status'] = true;
-                $res['data'] = $product;
+                $res['data'] = new ProductResource($product);
                 $res['message'] = "Product Save Succefull!";
             }
 
         }
 
+        return response()->json($res);
+    }
+
+
+    public function attachCategory(Request $request, $id){
+        $res = [
+            'status' => false,
+            'data' => null,
+            'message' => ''
+        ];
+
+        $categories = $request->categories;
+        if(count($categories)<=0){
+            $res['message'] = 'Please select at least one Category!';
+        }else{
+            $product = Product::find($id);
+            if(!$product){
+                $res['message'] = 'Product Not Found!';
+            }else{
+                $product->categories()->sync($categories);
+
+                $res['status'] = true;
+                $res['data'] = new ProductResource($product);
+                $res['message'] = 'Category Attached!';
+            }
+        }
         return response()->json($res);
     }
 
@@ -169,11 +197,13 @@ class ProductController extends Controller
             if (file_exists(public_path() . "/uploads/images" . $pruduct->image)) {
                 @unlink(public_path() . "/uploads/images" . $$pruduct->image);
             }
+
+            $resource =new ProductResource($product);
             $pruduct->delete();
 
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
             $res['status'] = true;
-            $res['data'] = $pruduct;
+            $res['data'] = $resource;
             $res['message'] = "Product delete Succefull!";
         }
         return response()->json($res);
