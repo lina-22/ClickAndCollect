@@ -189,17 +189,17 @@ class ProductController extends Controller
             'message' => ''
         ];
 
-        $pruduct = Product::find($id);
+        $product = Product::find($id);
 
-        if (!$pruduct) {
+        if (!$product) {
             $res['message'] = 'Product not found';
         } else {
-            if (file_exists(public_path() . "/uploads/images" . $pruduct->image)) {
-                @unlink(public_path() . "/uploads/images" . $$pruduct->image);
+            if (file_exists(public_path() . "/uploads/images" . $product->image)) {
+                @unlink(public_path() . "/uploads/images" . $$product->image);
             }
 
             $resource =new ProductResource($product);
-            $pruduct->delete();
+            $product->delete();
 
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
             $res['status'] = true;
