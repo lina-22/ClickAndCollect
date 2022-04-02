@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -127,5 +128,41 @@ class UserController extends Controller
             }
         }
         return response()->json($res);
+    }
+
+    public function showAll(){
+        $res = [
+            'status' => false,
+            'data'  => null,
+            'message' => ''
+        ];
+
+        $user = User::all();
+        if($user->count()>0){
+            $res['status'] = true;
+            $res['data'] = $user;
+            $res['message'] = "This are users!";
+        } else{
+            $res['message'] = "There is no user!";
+        }
+        return response()->json($res);
+    }
+
+    public function showSingle($id){
+        $res = [
+            'status' => false,
+            'data' => null,
+            'message' => ''
+        ];
+         $user = User::find($id);
+         if($user){
+             $res['status'] = true;
+             $res['data'] =$user;
+             $res['message'] = "This is user one!";
+         }else{
+             $res["message"] = 'There is no user!';
+         }
+
+         return response()->json($res);
     }
 }
