@@ -86,8 +86,10 @@ Route::delete('reservations/{id}', [ReservationController::class, 'destroy']);
 // Route for users
 Route::get('users', [UserController::class, 'showAll']);
 Route::get('users/{id}', [UserController::class, 'showSingle']);
+
 Route::post('users', [UserController::class, 'store']);
 Route::put('users/{id}', [UserController::class, 'update']);
+
 Route::delete('users/{id}', [UserController::class, 'destroy']);
 
 // Route for roles

@@ -13,27 +13,20 @@ class UserController extends Controller
 {
     public function updateProfile(Request $request)
     {
-
         $res = [
             'status' => false,
             'data' => null,
             'message' => ''
         ];
-
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:150',
             'last_name' => 'nullable|string|max:150',
-
         ]);
 
         if ($validator->fails()) {
             $res['message'] = $validator->errors()->first();
         } else {
-
-
-
             $user = Auth::user();
-
             if ($user) {
                 $user->first_name = $request->first_name;
                 $user->last_name = $request->last_name;
@@ -53,7 +46,6 @@ class UserController extends Controller
 
     public function updatePassword(Request $request)
     {
-
         $res = [
             'status' => false,
             'data' => null,
@@ -61,65 +53,65 @@ class UserController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'new_password' => 'required|min:8|string|max:16|confirmed',
+            'new_password' => 'required|string|min:8|max:16|confirmed',
             'old_password' => 'required',
-
         ]);
 
         if ($validator->fails()) {
             $res['message'] = $validator->errors()->first();
         } else {
             $user = Auth::user();
-
             if ($user) {
+
                 $match = Hash::check($request->old_password, $user->password);
-                if ($match) {
+
+                if($match){
+
                     $user->password = Hash::make($request->new_password);
+
                     $user->save();
 
                     $res['status'] = true;
-                    $res['data'] =  $user;
-                    $res['message'] = 'Profile Update Completed';
-                } else {
-                    $res['message'] = 'credentials Dont Match';
+                    $res['data'] = $user;
+                    $res['message'] = "Password Update Completed!";
+
+                }else{ 
+                    $res['message'] = "Credentials Don't Match!";
                 }
+
             } else {
-                $res['message'] = 'User not found';
+                $res['message'] = 'User Not Found';
             }
         }
+
         return response()->json($res);
+        
     }
 
 
     public function updateEmail(Request $request)
     {
-
         $res = [
             'status' => false,
             'data' => null,
             'message' => ''
         ];
-
         $validator = Validator::make($request->all(), [
             'new_email' => 'required|email|unique:users,email',
             'password' => 'required',
-
         ]);
-
         if ($validator->fails()) {
             $res['message'] = $validator->errors()->first();
         } else {
             $user = Auth::user();
-
             if ($user) {
                 $match = Hash::check($request->password, $user->password);
                 if ($match) {
-                    $user->password = $request->new_email;
+                    $user->email = $request->new_email;
                     $user->save();
-
                     $res['status'] = true;
                     $res['data'] =  $user;
-                    $res['message'] = 'Profile Update Completed';
+                    $res['message'] = 'Email Update Completed!';
                 } else {
                     $res['message'] = 'credentials Dont Match';
                 }
