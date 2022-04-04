@@ -14,24 +14,25 @@ class ReservationResource extends JsonResource
      */
     public function toArray($request)
     {
-        $productAvailables =[];
-       foreach ($productAvailables as $productAvailable){
+        $productLines =[];
+       foreach ($this->productLines as $p_line){
            $data = [
-                    'id' => $productAvailable->id,
-                    'colour' => $productAvailable->colour,
-                    'quantity' => $productAvailable->quantity,
-                    'size' => $productAvailable->size
+                    'id' => $p_line->id,
+                    'colour' => $p_line->colour,
+                    'quantity' => $p_line->quantity,
+                    'size' => $p_line->size
 
            ];
+           array_push($productLines, $data);
        }
-       array_push($productAvailables, $data);
+     
          
         return [
             'id' =>$this->id,
             'dateTime'=>$this->dateTime,
             'reference'=>$this->reference,
-            'status'=>$this->reference,
-            'ProductAvailable' => $productAvailables
+            'status'=>$this->status,
+            'ProductAvailable' => $productLines
         ];
     }
 }

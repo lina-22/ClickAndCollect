@@ -4,6 +4,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\ProductAvailableController;
 use App\Http\Controllers\api\ProductController;
+use App\Http\Controllers\api\ProductLineController;
 use App\Http\Controllers\api\ReservationController;
 use App\Http\Controllers\api\RoleController;
 use App\Http\Controllers\api\UserController;
@@ -55,6 +56,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('updateprofile',[UserController::class, 'updateProfile']);
     Route::put('updatepassword',[UserController::class, 'updatePassword']);
     Route::put('updateemail',[UserController::class, 'updateEmail']);
+
+    // Route for productLine
+Route::get('productsLine', [ProductLineController::class, 'showAll']);
+Route::get('productsLine/{id}', [ProductLineController::class, 'showSingle']);
+Route::post('productsLine', [ProductLineController::class, 'store']);
+Route::put('productsLine/{id}', [ProductLineController::class, 'update']);
+Route::delete('productsLine/{id}', [ProductLineController::class, 'destroy']); 
 });
 // Routes for categoris
 
@@ -81,6 +89,9 @@ Route::get('reservations/{id}', [ReservationController::class, 'showSingle']);
 Route::post('reservations', [ReservationController::class, 'store']);
 Route::put('reservations/{id}', [ReservationController::class, 'update']);
 Route::delete('reservations/{id}', [ReservationController::class, 'destroy']);
+
+
+
 
 
 // Route for users
