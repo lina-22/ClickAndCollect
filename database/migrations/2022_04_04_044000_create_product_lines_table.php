@@ -19,6 +19,11 @@ return new class extends Migration
             $table->unsignedBigInteger('product_available_id');
             $table->integer('quantity');
             $table->timestamps();
+
+            $table->index('reservation_id');
+            $table->index('product_available_id');
+
+            $table->foreign('reservation_id')->on('reservations')->references('id')->onDelete('cascade');
         });
     }
 

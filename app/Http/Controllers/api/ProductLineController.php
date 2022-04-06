@@ -41,7 +41,7 @@ class ProductLineController extends Controller
                     // Reservation is available, Put Product into it,
                     $productLine = $this->createProductLine($request, $reservation);
                     $res['status'] = true;
-                    $res['data'] =  new ReservationResource($reservation); 
+                    $res['data'] =  new ReservationResource($reservation);
                     $res['message'] = 'Product added to Reservation!';
                 } else { //Reservation not found, Create new Reservation
                     $reservation = new Reservation();
@@ -52,7 +52,7 @@ class ProductLineController extends Controller
                     $productLine = $this->createProductLine($request, $reservation);
 
                     $res['status'] = true;
-                    $res['data'] =  new ReservationResource($reservation); 
+                    $res['data'] =  new ReservationResource($reservation);
                     $res['message'] = 'Product added to Reservation!';
                 }
             } else {
@@ -62,15 +62,95 @@ class ProductLineController extends Controller
         return response()->json($res);
     }
 
-    private function createProductLine($request, $reservation)
-       {
-         $productLine = new ProductLine();
-         $productLine->quantity = $request->quantity;
-         $productLine->product_available_id = $request->product_available_id;
-         $productLine->reservation_id =  $reservation->id;
-         $productLine->save();
+    public function quantityIncrement(Request $request)
+    {
+        $res = [
+            'status' => false,
+            'data' => null,
+            'message' => ''
+        ];
 
-         return $productLine;
-       }
-     
+        $productline_id = $request->productline_id;
+        $amount = $request->amount;
+        if ($amount) {
+            $productLine = ProductLine::find($productline_id);
+
+            if ($productLine) {
+                $productLine->quantity = $productLine->quantity + $amount;
+                $productLine->save();
+
+                $res['status'] = true;
+                $res['data'] =  new ReservationResource($productLine->reservation);
+                $res['message'] = 'ProductLine quantity Incremented!';
+            } else {
+                $res['message'] = 'Product Line not found!';
+            }
+        }
+        return response()->json($res);
+    }
+
+    public function quantityDecrement(Request $request)
+    {
+        $res = [
+            'status' => false,
+            'data' => null,
+            'message' => ''
+        ];
+
+        $productline_id = $request->productline_id;
+        $amount = $request->amount;
+        if ($amount) {
+            $productLine = ProductLine::find($productline_id);
+
+            if ($productLine) {
+
+                if ($productLine->quantity > $amount) {
+                    $productLine->quantity = $productLine->quantity - $amount;
+                    $productLine->save();
+
+                    $res['status'] = true;
+                    $res['data'] =  new ReservationResource($productLine->reservation);
+                    $res['message'] = 'ProductLine quantityDecremented!';
+                }else{
+                    $res['message'] = 'Product quantity is less than amount';
+                }
+            } else {
+                $res['message'] = 'Product Line not found!';
+            }
+        }
+        return response()->json($res);
+    }
+
+    public function destroy($id)
+    {
+        $res = [
+            'status' => false,
+            'data'  => null,
+            'message' => ''
+        ];
+
+        $productLine = ProductLine::find($id);
+
+        if (!$productLine) {
+            $res['message'] = 'User is not available!';
+        }
+        $productLine->delete();
+
+        $res['status'] = true;
+        $res['data'] = $productLine;
+        $res['message'] = "User deleted succefully!";
+
+        return response()->json($res);
+    }
+
+    private function createProductLine($request, $reservation)
+    {
+        $productLine = new ProductLine();
+        $productLine->quantity = $request->quantity;
+        $productLine->product_available_id = $request->product_available_id;
+        $productLine->reservation_id =  $reservation->id;
+        $productLine->save();
+
+        return $productLine;
+    }
 }
