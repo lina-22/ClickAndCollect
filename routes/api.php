@@ -56,13 +56,15 @@ Route::get('products/{id}', [ProductController::class, 'showSingle']);
 Route::get('productsAvailable', [ProductAvailableController::class, 'showAll']);
 Route::get('productsAvailable/{id}', [ProductAvailableController::class, 'showSingle']);
 
+
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
 
-    Route::post('categories', [CategoryController::class, 'store']);
-    Route::put('categories/{id}', [CategoryController::class, 'update']);
-    Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
+    Route::post('categories', [CategoryController::class, 'store'])->middleware('admin');
+    Route::put('categories/{id}', [CategoryController::class, 'update'])->middleware('admin');
+    Route::delete('categories/{id}', [CategoryController::class, 'destroy'])->middleware('admin');
 
     Route::put('updateprofile', [UserController::class, 'updateProfile']);
     Route::put('updatepassword', [UserController::class, 'updatePassword']);
@@ -76,42 +78,42 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('productsLine/decrement', [ProductLineController::class, 'quantitydecrement']);
 
     Route::get('productsLine/{id}', [ProductLineController::class, 'showSingle']);
-    Route::put('productsLine/{id}', [ProductLineController::class, 'update']);
-    Route::delete('productsLine/{id}', [ProductLineController::class, 'destroy']);
+    Route::put('productsLine/{id}', [ProductLineController::class, 'update'])->middleware('admin');
+    Route::delete('productsLine/{id}', [ProductLineController::class, 'destroy'])->middleware('admin');
 
     // Routes for products
-    Route::post('products/{id}/attach_category', [ProductController::class, 'attachCategory']);
-    Route::post('products', [ProductController::class, 'store']);
-    Route::put('products/{id}', [ProductController::class, 'update']);
-    Route::delete('products/{id}', [ProductController::class, 'destroy']);
+    Route::post('products/{id}/attach_category', [ProductController::class, 'attachCategory'])->middleware('admin');
+    Route::post('products', [ProductController::class, 'store'])->middleware('admin');
+    Route::put('products/{id}', [ProductController::class, 'update'])->middleware('admin');
+    Route::delete('products/{id}', [ProductController::class, 'destroy'])->middleware('admin');
 
-    Route::post('productsAvailable', [ProductAvailableController::class, 'store']);
-    Route::put('productsAvailable/{id}', [ProductAvailableController::class, 'update']);
-    Route::delete('productsAvailable/{id}', [ProductAvailableController::class, 'destroy']);
+    Route::post('productsAvailable', [ProductAvailableController::class, 'store'])->middleware('admin');
+    Route::put('productsAvailable/{id}', [ProductAvailableController::class, 'update'])->middleware('admin');
+    Route::delete('productsAvailable/{id}', [ProductAvailableController::class, 'destroy'])->middleware('admin');
 
 
     // Route for reservation
     Route::get('reservations', [ReservationController::class, 'showAll']);
     Route::get('reservations/{id}', [ReservationController::class, 'showSingle']);
-    Route::post('reservations', [ReservationController::class, 'store']);
-    Route::put('reservations/{id}', [ReservationController::class, 'update']);
-    Route::delete('reservations/{id}', [ReservationController::class, 'destroy']);
+    Route::post('reservations', [ReservationController::class, 'store'])->middleware('admin');
+    Route::put('reservations/{id}', [ReservationController::class, 'update'])->middleware('admin');
+    Route::delete('reservations/{id}', [ReservationController::class, 'destroy'])->middleware('admin');
 
     // Route for users
-    Route::get('users', [UserController::class, 'showAll']);
-    Route::get('users/{id}', [UserController::class, 'showSingle']);
+    Route::get('users', [UserController::class, 'showAll'])->middleware('admin');
+    Route::get('users/{id}', [UserController::class, 'showSingle'])->middleware('admin');
 
-    Route::post('users', [UserController::class, 'store']);
-    Route::put('users/{id}', [UserController::class, 'update']);
+    Route::post('users', [UserController::class, 'store'])->middleware('superAdmin');
+    Route::put('users/{id}', [UserController::class, 'update'])->middleware('admin');
 
-    Route::delete('users/{id}', [UserController::class, 'destroy']);
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware('admin');
 
     // Route for roles
     Route::get('roles', [RoleController::class, 'showAll']);
     Route::get('roles/{id}', [RoleController::class, 'showSingle']);
-    Route::post('roles', [RoleController::class, 'store']);
-    Route::put('roles/{id}', [RoleController::class, 'update']);
-    Route::delete('roles/{id}', [RoleController::class, 'destroy']);
+    Route::post('roles', [RoleController::class, 'store'])->middleware('superAdmin');
+    Route::put('roles/{id}', [RoleController::class, 'update'])->middleware('superAdmin');
+    Route::delete('roles/{id}', [RoleController::class, 'destroy'])->middleware('superAdmin');
 
     // end****
 });

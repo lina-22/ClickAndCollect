@@ -3,11 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SuperAdminMiddleware
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -20,7 +19,9 @@ class SuperAdminMiddleware
     {
         $user = Auth::user(); 
 
-        if($user->role_id === 1){
+        if (in_array($user->id,[1,2])){}
+
+        if($user->role_id === 2){
             return $next($request);
         }else{
             return response()->json([
