@@ -61,11 +61,12 @@ Route::get('productsAvailable/{id}', [ProductAvailableController::class, 'showSi
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
-
+    // Routes for categoris
     Route::post('categories', [CategoryController::class, 'store'])->middleware('admin');
     Route::put('categories/{id}', [CategoryController::class, 'update'])->middleware('admin');
     Route::delete('categories/{id}', [CategoryController::class, 'destroy'])->middleware('admin');
 
+    // Routes for user profile
     Route::put('updateprofile', [UserController::class, 'updateProfile']);
     Route::put('updatepassword', [UserController::class, 'updatePassword']);
     Route::put('updateemail', [UserController::class, 'updateEmail']);
@@ -74,8 +75,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('productsLine', [ProductLineController::class, 'showAll']);
     Route::post('productsLine', [ProductLineController::class, 'store']);
 
-    Route::post('productsLine/increment', [ProductLineController::class, 'quantityincrement']);
-    Route::post('productsLine/decrement', [ProductLineController::class, 'quantitydecrement']);
+    Route::post('productsLine/increment', [ProductLineController::class, 'quantityIncrement']);
+    Route::post('productsLine/decrement', [ProductLineController::class,  'quantityDecrement']);
 
     Route::get('productsLine/{id}', [ProductLineController::class, 'showSingle']);
     Route::put('productsLine/{id}', [ProductLineController::class, 'update'])->middleware('admin');
@@ -87,6 +88,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('products/{id}', [ProductController::class, 'update'])->middleware('admin');
     Route::delete('products/{id}', [ProductController::class, 'destroy'])->middleware('admin');
 
+    // Routes for productAvailable
     Route::post('productsAvailable', [ProductAvailableController::class, 'store'])->middleware('admin');
     Route::put('productsAvailable/{id}', [ProductAvailableController::class, 'update'])->middleware('admin');
     Route::delete('productsAvailable/{id}', [ProductAvailableController::class, 'destroy'])->middleware('admin');
@@ -101,12 +103,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Route for users
     Route::get('users', [UserController::class, 'showAll'])->middleware('admin');
-    Route::get('users/{id}', [UserController::class, 'showSingle'])->middleware('admin');
+    Route::get('users/{id}', [UserController::class, 'showSingle']);
 
     Route::post('users', [UserController::class, 'store'])->middleware('superAdmin');
-    Route::put('users/{id}', [UserController::class, 'update'])->middleware('admin');
+    Route::put('users/{id}', [UserController::class, 'update'])->middleware('superAdmin');
 
-    Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware('admin');
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->middleware('superAdmin');
 
     // Route for roles
     Route::get('roles', [RoleController::class, 'showAll']);
@@ -117,7 +119,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // end****
 });
-// Routes for categoris
+
 
 
 

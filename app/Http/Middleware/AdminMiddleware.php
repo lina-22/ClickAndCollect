@@ -17,17 +17,15 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user(); 
+        $user = Auth::user();
 
-        if (in_array($user->id,[1,2])){}
-
-        if($user->role_id === 2){
+        if (in_array($user->id, [1 , 2])) {
             return $next($request);
-        }else{
+        } else {
             return response()->json([
                 'message' => 'UnAuthorized'
-            ],401);
+            ], 401);
         }
-        
+
     }
 }

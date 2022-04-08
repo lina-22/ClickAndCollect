@@ -112,7 +112,7 @@ class ProductLineController extends Controller
                     $res['status'] = true;
                     $res['data'] =  new ReservationResource($productLine->reservation);
                     $res['message'] = 'ProductLine quantityDecremented!';
-                }else{
+                } else {
                     $res['message'] = 'Product quantity is less than amount';
                 }
             } else {
@@ -126,21 +126,71 @@ class ProductLineController extends Controller
     {
         $res = [
             'status' => false,
-            'data'  => null,
+            'data' => null,
             'message' => ''
         ];
-
         $productLine = ProductLine::find($id);
 
         if (!$productLine) {
-            $res['message'] = 'User is not available!';
+            $res['message'] = 'ProductLine not found';
+        } else {
+
+            $productLine->delete();
+
+            //6. here at the res variable we will give the true inf rather than by default information save at response variable
+            $res['status'] = true;
+            $res['data'] = $productLine;
+            $res['message'] = "ProductLine delete Succefull!";
+
         }
-        $productLine->delete();
+        return response()->json($res);
+    }
 
-        $res['status'] = true;
-        $res['data'] = $productLine;
-        $res['message'] = "User deleted succefully!";
+    public function showAll()
+    {
 
+        $res = [
+            'status' => false,
+            'data' => null,
+            'message' => ''
+        ];
+
+        $productline = ProductLine::all();
+
+        if ($productline->count() > 0) {
+            $res['status'] = true;
+            // $res['data'] = $productline;
+            // $res['data'] = ProductResource::collection($productline);
+            $res['data'] = $productline;
+            $res['message'] = 'Productsline show successfully';
+        } else {
+            $res['message'] = 'Productsline not found';
+        }
+
+        return response()->json($res);
+    }
+
+    public function showSingle($id)
+    {
+
+        $res = [
+            'status' => false,
+            'data' => null,
+            'message' => ''
+        ];
+
+        $productline = ProductLine::find($id);
+
+        // $productline->categories;
+
+        if ($productline) {
+            $res['status'] = true;
+            $res['data'] = $productline;
+
+            $res['message'] = 'Product found successfully';
+        } else {
+            $res['message'] = 'Product not found';
+        }
         return response()->json($res);
     }
 
@@ -168,3 +218,4 @@ class ProductLineController extends Controller
 
 //     return $productLine;
 // }
+
