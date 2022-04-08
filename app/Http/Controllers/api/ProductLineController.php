@@ -40,6 +40,7 @@ class ProductLineController extends Controller
                 if ($reservation) {
                     // Reservation is available, Put Product into it,
                     $productLine = $this->createProductLine($request, $reservation);
+
                     $res['status'] = true;
                     $res['data'] =  new ReservationResource($reservation);
                     $res['message'] = 'Product added to Reservation!';
@@ -154,3 +155,16 @@ class ProductLineController extends Controller
         return $productLine;
     }
 }
+
+// private function createProductLine($request, , $productAval, $reservation) akany jodi amara $productAval
+// name akta variable nai and ata dia 164 no line a product_avaiable_id anar jonno $request
+// na dia product_avaiable_id ata k patai ta o tho hoy??  or $request ki amara 164/165/166 ai 3 ta tha e use korta parbo??
+// {
+//     $productLine = new ProductLine();
+//     $productLine->quantity = $request->quantity;
+//     $productLine->product_available_id = $request->product_available_id;
+//     $productLine->reservation_id =  $reservation->id;
+//     $productLine->save();
+
+//     return $productLine;
+// }

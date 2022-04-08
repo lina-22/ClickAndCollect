@@ -25,14 +25,14 @@ class ReservationResource extends JsonResource
            ];
            array_push($productLines, $data);
        }
-     
-         
+
+
         return [
             'id' =>$this->id,
             'dateTime'=>$this->dateTime,
             'reference'=>$this->reference,
             'status'=>$this->status,
-            'ProductAvailable' => $productLines
+            'ProductLines' => $productLines
         ];
     }
 }
