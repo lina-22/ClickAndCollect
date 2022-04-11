@@ -97,9 +97,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route for reservation
     Route::get('reservations', [ReservationController::class, 'showAll']);
     Route::get('reservations/{id}', [ReservationController::class, 'showSingle']);
-    Route::post('reservations', [ReservationController::class, 'store'])->middleware('admin');
-    Route::put('reservations/{id}', [ReservationController::class, 'update'])->middleware('admin');
-    Route::delete('reservations/{id}', [ReservationController::class, 'destroy'])->middleware('admin');
+    Route::post('reservations', [ReservationController::class, 'store']);
+    Route::put('reservations/{id}', [ReservationController::class, 'update']);
+    Route::delete('reservations/{id}', [ReservationController::class, 'destroy']);
 
     // Route for users
     Route::get('users', [UserController::class, 'showAll'])->middleware('admin');

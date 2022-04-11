@@ -19,7 +19,7 @@ class AdminMiddleware
     {
         $user = Auth::user();
 
-        if (in_array($user->id, [1 , 2])) {
+        if (in_array($user->role_id, [1 , 2])) {
             return $next($request);
         } else {
             return response()->json([
