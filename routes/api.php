@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\HomeController;
 use App\Http\Controllers\api\ProductAvailableController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\ProductLineController;
@@ -39,6 +40,8 @@ Route::get('/demo', function () {
 
 //     ])
 // });
+
+Route::get('gethomedata', [HomeController::class, 'index']);
 
 
 Route::post('/register', [AuthController::class, 'register']);
