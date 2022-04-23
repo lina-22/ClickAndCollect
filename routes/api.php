@@ -64,6 +64,8 @@ Route::get('productsAvailable/{id}', [ProductAvailableController::class, 'showSi
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::get('profile', [AuthController::class, 'profile']);
+
     // Routes for categoris
     Route::post('categories', [CategoryController::class, 'store'])->middleware('admin');
     Route::put('categories/{id}', [CategoryController::class, 'update'])->middleware('admin');
