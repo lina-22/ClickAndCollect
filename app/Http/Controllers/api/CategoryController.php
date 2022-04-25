@@ -39,7 +39,7 @@ class CategoryController extends Controller
             'data' => null,
             'message' => ''
         ];
-  
+
         $category = Category::find($id);
         // amra vabe category thake products a na giya data ar maje category resource ar vitora $category dia dibo
         // $category->products;
@@ -57,7 +57,7 @@ class CategoryController extends Controller
 
     public function store(Request $request)
      {
-         
+
           // dd($request->all());
         //1.  here by default information save at response variable
         $res = [
@@ -83,10 +83,11 @@ class CategoryController extends Controller
         } else {
             $category = new Category();
             $category->name = $request->name;
+            $category->is_featured = $request->is_featured;
 
             // end to verify the name with validation
 
-            // 4.  this lines for image 
+            // 4.  this lines for image
 
             if ($image_file = $request->file('image')) {
                 $extension = $image_file->getClientOriginalExtension();
@@ -99,7 +100,7 @@ class CategoryController extends Controller
 
             // 5. we need to save the category variable
             $category->save();
- 
+
             // ** i write this line after make the relationship between many to many(Postman a arry akara jeta dekcilam ata akany add kora dicy)
             $category->products()->sync($request->products);
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
@@ -107,7 +108,7 @@ class CategoryController extends Controller
             $res['data'] = $category;
             $res['message'] = "Category Save Succefull!";
 
-            // here end of the res variable 
+            // here end of the res variable
         }
 
         // 7. finally return the Json data
@@ -147,7 +148,7 @@ class CategoryController extends Controller
 
                 // end to verify the name with validation
 
-                // 4.  this lines for image 
+                // 4.  this lines for image
 
                 if ($image_file = $request->file('image')) {
                     if (file_exists(public_path() . "/uploads/images" . $category->image)) {
@@ -169,17 +170,17 @@ class CategoryController extends Controller
                 $res['data'] = $category;
                 $res['message'] = "Category Save Succefull!";
 
-                // here end of the res variable 
+                // here end of the res variable
             }
 
             // 7. finally return the Json data
 
-            
+
         }
         return response()->json($res);
 
     }
-      
+
     public function destroy($id){
         $res = [
             'status' => false,

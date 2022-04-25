@@ -40,4 +40,13 @@ class User extends Authenticatable
      * @var array<string, string>
      */
 
+    public function reservations(){
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+
 }
