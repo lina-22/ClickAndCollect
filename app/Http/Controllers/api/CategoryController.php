@@ -130,7 +130,7 @@ class CategoryController extends Controller
         //  2.what kinds of things we are going to valided
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|unique:categories',
+            'name' => 'required|string',
             'image' => 'image|nullable|sometimes'
         ]);
 
@@ -145,6 +145,7 @@ class CategoryController extends Controller
                 $res['message'] = 'Category not found';
             } else {
                 $category->name = $request->name;
+                $category->is_featured = $request->is_featured;
 
                 // end to verify the name with validation
 
