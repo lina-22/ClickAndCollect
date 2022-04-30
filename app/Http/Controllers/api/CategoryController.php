@@ -92,7 +92,7 @@ class CategoryController extends Controller
             if ($image_file = $request->file('image')) {
                 $extension = $image_file->getClientOriginalExtension();
                 $image = 'Category_' . time() . '.' . $extension;
-                Image::make($image_file)->save(public_path() . "/uploads/images" . $image);
+                Image::make($image_file)->save(public_path() . "/uploads/images/" . $image);
                 $category->image = $image;
             }
 
@@ -152,12 +152,12 @@ class CategoryController extends Controller
                 // 4.  this lines for image
 
                 if ($image_file = $request->file('image')) {
-                    if (file_exists(public_path() . "/uploads/images" . $category->image)) {
-                        @unlink(public_path() . "/uploads/images" . $category->image);
+                    if (file_exists(public_path() . "/uploads/images/" . $category->image)) {
+                        @unlink(public_path() . "/uploads/images/" . $category->image);
                     }
                     $extension = $image_file->getClientOriginalExtension();
                     $image = 'Category_' . time() . '.' . $extension;
-                    Image::make($image_file)->save(public_path() . "/uploads/images" . $image);
+                    Image::make($image_file)->save(public_path() . "/uploads/images/" . $image);
                     $category->image = $image;
                 }
 
@@ -169,7 +169,7 @@ class CategoryController extends Controller
                 //6. here at the res variable we will give the true inf rather than by default information save at response variable
                 $res['status'] = true;
                 $res['data'] = $category;
-                $res['message'] = "Category Save Succefull!";
+                $res['message'] = "Category Update Succefull!";
 
                 // here end of the res variable
             }
@@ -193,8 +193,8 @@ class CategoryController extends Controller
         if (!$category) {
             $res['message'] = 'Category not found';
         } else {
-            if (file_exists(public_path() . "/uploads/images" . $category->image)) {
-                @unlink(public_path() . "/uploads/images" . $category->image);
+            if (file_exists(public_path() . "/uploads/images/" . $category->image)) {
+                @unlink(public_path() . "/uploads/images/" . $category->image);
             }
             $category->delete();
 

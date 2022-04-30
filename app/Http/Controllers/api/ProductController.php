@@ -26,7 +26,7 @@ class ProductController extends Controller
             $res['status'] = true;
             // $res['data'] = $products;
             $res['data'] = ProductResource::collection($products);
-            $res['message'] = 'Products show succefully';
+            $res['message'] = 'Products Load succefully';
         } else {
             $res['message'] = 'Products not found';
         }
@@ -51,7 +51,7 @@ class ProductController extends Controller
         if ($product) {
             $res['status'] = true;
             $res['data'] = new ProductResource($product);
-          
+
             $res['message'] = 'Product found successfully';
         } else {
             $res['message'] = 'Product not found';
@@ -84,12 +84,13 @@ class ProductController extends Controller
             $product->name = $request->name;
             $product->price = round($request->price , 2);
             $product->discount = $request->discount;
+            $product->is_featured = $request->is_featured;
 
 
             if ($image_file = $request->file('image')) {
                 $extension = $image_file->getClientOriginalExtension();
                 $image = 'Product_' . time() . '.' . $extension;
-                Image::make($image_file)->save(public_path() . "/uploads/images" . $image);
+                Image::make($image_file)->save(public_path() . "/uploads/images/" . $image);
                 $product->image = $image;
             }
 
@@ -136,18 +137,18 @@ class ProductController extends Controller
                 $product->discount = $request->discount;
                 $product->description = $request->description;
                 if ($image_file = $request->file('image')) {
-                    if (file_exists(public_path() . "/uploads/images" . $product->image)) {
-                        @unlink(public_path() . "/uploads/images" . $product->image);
+                    if (file_exists(public_path() . "/uploads/images/" . $product->image)) {
+                        @unlink(public_path() . "/uploads/images/" . $product->image);
                     }
                     $extension = $image_file->getClientOriginalExtension();
                     $image = 'Product_' . time() . '.' . $extension;
-                    Image::make($image_file)->save(public_path() . "/uploads/images" . $image);
+                    Image::make($image_file)->save(public_path() . "/uploads/images/" . $image);
                     $product->image = $image;
                 }
                 $product->save();
                 $res['status'] = true;
                 $res['data'] = new ProductResource($product);
-                $res['message'] = "Product Save Succefull!";
+                $res['message'] = "Product UUpdate Succefull!";
             }
 
         }
@@ -194,8 +195,8 @@ class ProductController extends Controller
         if (!$product) {
             $res['message'] = 'Product not found';
         } else {
-            if (file_exists(public_path() . "/uploads/images" . $product->image)) {
-                @unlink(public_path() . "/uploads/images" . $$product->image);
+            if (file_exists(public_path() . "/uploads/images/" . $product->image)) {
+                @unlink(public_path() . "/uploads/images/" . $$product->image);
             }
 
             $resource =new ProductResource($product);

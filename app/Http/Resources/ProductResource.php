@@ -14,7 +14,7 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        $categories =[];    
+        $categories =[];
         foreach($this->categories as $category){
             $data = [
                 'id' => $category->id,
@@ -39,6 +39,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price,
+            'is_featured' => $this->is_featured,
             'discount' => $this->discount,
             'totalPrice' => round($this->price-$this->price* $this->discount/100, 2),
             'description' => $this->description,
