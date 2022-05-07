@@ -19,7 +19,7 @@ class ProductResource extends JsonResource
             $data = [
                 'id' => $category->id,
                 'name' => $category->name,
-                'image' => $category->image
+                'image' => $category->image /*this line should delete as we will cut cat images */
             ];
             array_push($categories, $data);
         }

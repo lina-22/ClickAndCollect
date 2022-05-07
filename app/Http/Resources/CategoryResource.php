@@ -27,7 +27,7 @@ class CategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' =>$this->name,
-            'image' =>$this->image,
+            'image' =>$this->image, /*this line should delete as we will cut cat images */
             'products' => $products
         ];
     }
