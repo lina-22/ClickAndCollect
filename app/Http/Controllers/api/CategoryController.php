@@ -23,7 +23,7 @@ class CategoryController extends Controller
 
         if ($categories->count() > 0) {
             $res['status'] = true;
-            $res['data'] = $categories;
+            $res['data'] = CategoryResource::collection($categories);
             $res['message'] = 'Category Load Success!';
         } else {
             $res['message'] = 'no category found';
@@ -72,7 +72,7 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|unique:categories',
-            'image' => 'image|nullable|sometimes' /*1. this line should delete as we will cut cat images  total 7 lines*/
+            'image' => 'image|nullable|sometimes'
         ]);
 
         //  end what kinds of things we are going to valided
@@ -83,11 +83,11 @@ class CategoryController extends Controller
         } else {
             $category = new Category();
             $category->name = $request->name;
-            $category->is_featured = $request->is_featured; /*2.this line should delete as we will cut cat images */
+            $category->is_featured = $request->is_featured;
 
             // end to verify the name with validation
 
-            // 4.  this lines for image /*this line should delete as we will cut cat images */
+            // 4.  this lines for image
 
             if ($image_file = $request->file('image')) {
                 $extension = $image_file->getClientOriginalExtension();
@@ -96,7 +96,7 @@ class CategoryController extends Controller
                 $category->image = $image;
             }
 
-            //  end lines for image /*this line should delete as we will cut cat images */
+            //  end lines for image
 
             // 5. we need to save the category variable
             $category->save();
@@ -130,8 +130,8 @@ class CategoryController extends Controller
         //  2.what kinds of things we are going to valided
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'image' => 'image|nullable|sometimes' /*this line should delete as we will cut cat images */
+            'name' => 'required|string|unique:categories,name,'.$id,
+            'image' => 'image|nullable|sometimes'
         ]);
 
         //  end what kinds of things we are going to valided
@@ -145,12 +145,11 @@ class CategoryController extends Controller
                 $res['message'] = 'Category not found';
             } else {
                 $category->name = $request->name;
-                $category->is_featured = $request->is_featured; /*this line should delete as we will cut cat images */
-
+                $category->is_featured = $request->is_featured;
                 // end to verify the name with validation
 
                 // 4.  this lines for image
-               /*this line should delete as we will cut cat images */
+
                 if ($image_file = $request->file('image')) {
                     if (file_exists(public_path() . "/uploads/images/" . $category->image)) {
                         @unlink(public_path() . "/uploads/images/" . $category->image);
@@ -160,7 +159,7 @@ class CategoryController extends Controller
                     Image::make($image_file)->save(public_path() . "/uploads/images/" . $image);
                     $category->image = $image;
                 }
-               /*this line should delete as we will cut cat images */
+
                 //  end lines for image
 
                 // 5. we need to save the category variable
@@ -192,9 +191,9 @@ class CategoryController extends Controller
 
         if (!$category) {
             $res['message'] = 'Category not found';
-        } else { /*this line should delete as we will cut cat images */
-            if (file_exists(public_path() . "/uploads/images/" . $category->image)) {
-                @unlink(public_path() . "/uploads/images/" . $category->image);
+        } else {
+            if (file_exists(public_path() . "/uploads/images" . $category->image)) {
+                @unlink(public_path() . "/uploads/images" . $category->image);
             }
             $category->delete();
 
@@ -207,5 +206,4 @@ class CategoryController extends Controller
         return response()->json($res);
     }
 }
-
 

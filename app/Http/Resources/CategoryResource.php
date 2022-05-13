@@ -21,6 +21,8 @@ class CategoryResource extends JsonResource
                   'name' =>$product->name,
                   'price' => $product->price,
                   'image' => $product->image,
+                  'discount' => $product->discount,
+                  'totalPrice' => round($product->price-$product->price* $product->discount/100, 2),
             ];
             array_push($products, $data);
         }

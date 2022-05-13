@@ -47,7 +47,7 @@ class ProductLineController extends Controller
                 } else { //Reservation not found, Create new Reservation
                     $reservation = new Reservation();
                     $reservation->user_id = $user->id;
-                    $reservation->reference = "XYZ_ABC";
+                    $reservation->reference = "CNC_".time();
                     $reservation->status = "Active";
                     $reservation->save();
                     $productLine = $this->createProductLine($request, $reservation);
