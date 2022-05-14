@@ -19,10 +19,11 @@ class ReservationResource extends JsonResource
 
             $data = [
                 'id' => $p_line->id,
-                'colour' => $p_line->colour,
+                'colour' => $p_line->proAvl->colour,
                 'quantity' => $p_line->quantity,
-                'size' => $p_line->size,
-                'product' => $p_line->product
+                'size' => $p_line->proAvl->size,
+                'product' => $p_line->product,
+                'totalPrice' =>  round($p_line->product->price - $p_line->product->price * $p_line->product->discount / 100, 2) * $p_line->quantity
 
             ];
             array_push($productLines, $data);

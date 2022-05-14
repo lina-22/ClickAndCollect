@@ -18,4 +18,8 @@ class ProductLine extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function proAvl(){
+        return $this->belongsTo(ProductAvailable::class, 'product_available_id');
+    }
 }
