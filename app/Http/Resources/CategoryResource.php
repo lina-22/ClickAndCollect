@@ -15,21 +15,21 @@ class CategoryResource extends JsonResource
     public function toArray($request)
     {
         $products = [];
-        foreach ($this->products as $product){
-            $data=[
-                  'id' => $product->id,
-                  'name' =>$product->name,
-                  'price' => $product->price,
-                  'image' => $product->image,
-                  'discount' => $product->discount,
-                  'totalPrice' => round($product->price-$product->price* $product->discount/100, 2),
+        foreach ($this->products as $product) {
+            $data = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'image' => $product->image,
+                'discount' => $product->discount,
+                'totalPrice' => round($product->price - $product->price * $product->discount / 100, 2),
             ];
             array_push($products, $data);
         }
         return [
             'id' => $this->id,
-            'name' =>$this->name,
-            'image' =>$this->image, /*this line should delete as we will cut cat images */
+            'name' => $this->name,
+            'image' => $this->image,
             'products' => $products
         ];
     }

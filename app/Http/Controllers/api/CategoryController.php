@@ -40,9 +40,9 @@ class CategoryController extends Controller
             'message' => ''
         ];
 
-        $category = Category::find($id);
-        // amra vabe category thake products a na giya data ar maje category resource ar vitora $category dia dibo
-        // $category->products;
+       $category = Category::find($id);
+      // amra vabe category thake products a na giya data ar maje category resource ar vitora $category dia dibo
+      // $category->products;
 
         if ($category) {
             $res['status'] = true;
@@ -206,4 +206,6 @@ class CategoryController extends Controller
         return response()->json($res);
     }
 }
+
+
 

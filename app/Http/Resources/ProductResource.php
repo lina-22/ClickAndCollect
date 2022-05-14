@@ -19,7 +19,7 @@ class ProductResource extends JsonResource
             $data = [
                 'id' => $category->id,
                 'name' => $category->name,
-                'image' => $category->image /*this line should delete as we will cut cat images */
+                'image' => $category->image
             ];
             array_push($categories, $data);
         }
@@ -41,7 +41,7 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'is_featured' => $this->is_featured,
             'discount' => $this->discount,
-            'totalPrice' => round($this->price-$this->price* $this->discount/100, 2),
+            'totalPrice' => round($this->price-$this->price * $this->discount/100, 2),
             'description' => $this->description,
             'image' => $this->image,
             'categories' => $categories,
