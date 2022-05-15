@@ -172,27 +172,38 @@ class ProductLineController extends Controller
             $res['message'] = 'ProductLine not found';
         } else {
 
+            $data = $productLine->reservation;
+
             $productLine->delete();
 
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
             $res['status'] = true;
-            $res['data'] = $productLine;
+            $res['data'] = new ReservationResource($data);
             $res['message'] = "ProductLine delete Succefull!";
         }
+
         return response()->json($res);
     }
 
     private function createProductLine($request, $reservation)
     {
-        $productLine = new ProductLine();
-        $productLine->quantity = $request->quantity;
-        $productLine->product_available_id = $request->product_available_id;
-        $productLine->product_id = $request->product_id;
-        $productLine->reservation_id = $reservation->id;
-        $productLine->save();
+        $productLine = ProductLine::where('reservation_id', $reservation->id)->where('product_available_id', $request->product_available_id)->first();
+
+        if($productLine){
+            $productLine->quantity = $productLine->quantity + $request->quantity;
+            $productLine->save();
+        }else{
+            $productLine = new ProductLine();
+            $productLine->quantity = $request->quantity;
+            $productLine->product_available_id = $request->product_available_id;
+            $productLine->product_id = $request->product_id;
+            $productLine->reservation_id = $reservation->id;
+            $productLine->save();
+        }
 
         return $productLine;
     }
+
 }
 // private function createProductLine($request, , $productAval, $reservation) akany jodi amara $productAval
 // name akta variable nai and ata dia 164 no line a product_avaiable_id anar jonno $request

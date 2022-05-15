@@ -85,7 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('productsLine/{id}', [ProductLineController::class, 'showSingle']);
     Route::put('productsLine/{id}', [ProductLineController::class, 'update'])->middleware('admin');
-    Route::delete('productsLine/{id}', [ProductLineController::class, 'destroy'])->middleware('admin');
+    Route::delete('productsLine/{id}', [ProductLineController::class, 'destroy']);
 
     // Routes for products
     Route::post('products/{id}/attach_category', [ProductController::class, 'attachCategory'])->middleware('admin');
