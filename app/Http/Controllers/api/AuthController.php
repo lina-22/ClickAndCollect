@@ -69,7 +69,7 @@ class AuthController extends Controller
 
                 if($match){
                    $user->tokens()->delete();
-                   $token= $user->createToken('Customer_token');
+                   $token= $user->createToken('Access_token');
 
                    $res['status'] = true;
                    $res['data'] = [
@@ -79,10 +79,10 @@ class AuthController extends Controller
 
                    $res['message'] = "Login Completed!";
                 }else{
-                    $res['message'] = "Credentials Don\'t Match";
+                    $res['message'] = "Credentials Don't Match";
                 }
             }else{
-                $res['message'] = "User doesn\'t Exists, Please Register!";
+                $res['message'] = "User doesn't Exists, Please Register!";
             }
         }
         return response()->json($res);

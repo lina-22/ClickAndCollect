@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReservationResource;
+use App\Models\ProductAvailable;
 use App\Models\ProductLine;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -31,11 +32,10 @@ class ProductLineController extends Controller
                 $res['status'] = true;
                 $res['data'] = new ReservationResource($reservation);
                 $res['message'] = "Reservation Loaded!";
-            }else{
+            } else {
                 $res['data'] = [];
                 $res['message'] = "No Reservation!";
             }
-
         } else {
             $res['message'] = "Un Auhorized!";
         }
@@ -53,7 +53,7 @@ class ProductLineController extends Controller
         $validator = Validator::make($request->all(), [
             'quantity' => 'required|integer',
             'product_available_id' => 'required|integer',
-            'product_id' =>'required|integer'
+            'product_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -108,13 +108,24 @@ class ProductLineController extends Controller
         if ($amount) {
             $productLine = ProductLine::find($productline_id);
 
-            if ($productLine) {
-                $productLine->quantity = $productLine->quantity + $amount;
-                $productLine->save();
 
-                $res['status'] = true;
-                $res['data'] = new ReservationResource($productLine->reservation);
-                $res['message'] = "ProductLine Quantity Incremented!";
+            if ($productLine) {
+
+                $product_available = ProductAvailable::find($productLine->product_available_id);
+
+                if ($product_available->quantity < $amount) {
+                    $res['message'] = 'Product Amount Not Available!';
+                } else {
+                    $product_available->quantity = $product_available->quantity -  $amount;
+                    $product_available->save();
+
+                    $productLine->quantity = $productLine->quantity + $amount;
+                    $productLine->save();
+
+                    $res['status'] = true;
+                    $res['data'] = new ReservationResource($productLine->reservation);
+                    $res['message'] = "ProductLine Quantity Incremented!";
+                }
             } else {
                 $res['message'] = 'Product Line Not Found!';
             }
@@ -139,8 +150,12 @@ class ProductLineController extends Controller
             $productLine = ProductLine::find($productline_id);
 
             if ($productLine) {
+                $product_available = ProductAvailable::find($productLine->product_available_id);
 
                 if ($productLine->quantity > $amount) {
+
+                    $product_available->quantity = $product_available->quantity +  $amount;
+                    $product_available->save();
 
                     $productLine->quantity = $productLine->quantity - $amount;
                     $productLine->save();
@@ -174,6 +189,11 @@ class ProductLineController extends Controller
 
             $data = $productLine->reservation;
 
+            $product_available = ProductAvailable::find($productLine->product_available_id);
+
+            $product_available->quantity = $product_available->quantity +  $productLine->quantity;
+            $product_available->save();
+
             $productLine->delete();
 
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
@@ -181,18 +201,25 @@ class ProductLineController extends Controller
             $res['data'] = new ReservationResource($data);
             $res['message'] = "ProductLine delete Succefull!";
         }
-
         return response()->json($res);
     }
 
     private function createProductLine($request, $reservation)
     {
         $productLine = ProductLine::where('reservation_id', $reservation->id)->where('product_available_id', $request->product_available_id)->first();
+        $product_available = ProductAvailable::find($request->product_available_id);
 
-        if($productLine){
+        if ($productLine) {
+            $product_available->quantity = $product_available->quantity -  $request->quantity;
+            $product_available->save();
+
             $productLine->quantity = $productLine->quantity + $request->quantity;
             $productLine->save();
-        }else{
+        } else {
+
+            $product_available->quantity = $product_available->quantity -  $request->quantity;
+            $product_available->save();
+
             $productLine = new ProductLine();
             $productLine->quantity = $request->quantity;
             $productLine->product_available_id = $request->product_available_id;
