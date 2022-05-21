@@ -7,6 +7,7 @@ use App\Http\Resources\ReservationResource;
 use App\Models\ProductAvailable;
 use App\Models\ProductLine;
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -80,6 +81,7 @@ class ProductLineController extends Controller
                     $reservation->user_id = $user->id;
                     $reservation->reference = "CNC_" . time();
                     $reservation->status = 'Active';
+                    $reservation->expire_date = Carbon::now()->addDays(3);
                     $reservation->save();
                     $productLine = $this->createProductLine($request, $reservation);
 

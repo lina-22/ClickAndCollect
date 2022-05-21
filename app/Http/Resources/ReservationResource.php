@@ -35,6 +35,7 @@ class ReservationResource extends JsonResource
             'dateTime' => $this->dateTime,
             'reference' => $this->reference,
             'status' => $this->status,
+            'expire_date' => $this->expire_date,
             'productLines' => $productLines
         ];
     }

@@ -16,11 +16,11 @@ class ReservationController extends Controller
            'data' => null,
            'message' => ''
         ];
-  
+
         $reservations = Reservation::all();
         if($reservations->count()>0){
            $res['status'] = true;
-           $res['data'] = $reservations;
+           $res['data'] = ReservationResource::collection($reservations);
            $res['message'] = 'Reservations Loading Successfully';
         }
         else{
@@ -28,33 +28,33 @@ class ReservationController extends Controller
         }
         return response()->json($res);
       }
-  
+
       public function showSingle($id){
           $res = [
               'status' => false,
               'data' => null,
               'message' => ''
           ];
-  
+
           $reservation = Reservation::find($id);
           if ($reservation){
               $res['status'] = true;
-              $res['data'] = new ReservationResource($reservation); 
+              $res['data'] = new ReservationResource($reservation);
               $res['message'] = 'This is your reserved item!';
           }else{
               $res['message'] = 'There is no reservation for you!';
           }
           return response()->json($res);
       }
-  
-      
+
+
       public function store(Request $request)
       {
           $res = [
              'status' => false,
              'data' => null,
              'message' => ''
-          ];    
+          ];
           $validator = Validator::make($request->all(),[
               'reference' => 'string|unique:reservations',
               'status' => 'string'
@@ -65,7 +65,7 @@ class ReservationController extends Controller
               $reservation = new Reservation();
               $reservation->reference = $request->reference;
               $reservation->status = $request->status;
-  
+
               $reservation-> save();
               $reservation->productAvailable()->sync($request->productAvailables);
               $res['status'] = 'true';
@@ -73,16 +73,16 @@ class ReservationController extends Controller
               $res['message'] = 'Reservation saved successfully!';
           }
              return response()->json($res);
-      
-      }  
-  
+
+      }
+
       public function update(Request $request, $id){
           $res = [
               'status' => false,
               'data' => null,
               'message' => ''
           ];
-          $validator = Validator::make($request->all(),[ 
+          $validator = Validator::make($request->all(),[
               'reference' => 'string|unique:reservations',
               'status' => 'string'
           ]);
@@ -95,7 +95,7 @@ class ReservationController extends Controller
               } else{
               $reservation->reference = $request->reference;
               $reservation->status = $request->status;
-  
+
               $reservation-> save();
               $res['status'] = 'true';
               $res['data'] = '$reservation';
@@ -104,7 +104,7 @@ class ReservationController extends Controller
           }
              return response()->json($res);
       }
-  
+
       public function destroy($id)
       {
           $res = [
@@ -112,17 +112,17 @@ class ReservationController extends Controller
               'data' => null,
               'message' => ''
           ];
-          $reservation = Reservation::find($id); 
-          
+          $reservation = Reservation::find($id);
+
           if(!$reservation){
               $res['message'] = 'reservation is not available!';
           }
           $reservation->delete();
-  
+
           $res['status'] = true;
           $res['data'] = $reservation;
           $res['message'] = "Reserved product deleted succefully!";
-  
+
           return response()->json($res);
       }
 }

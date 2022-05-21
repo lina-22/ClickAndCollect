@@ -84,7 +84,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('productsLine/decrement', [ProductLineController::class,  'quantityDecrement']);
 
     Route::get('productsLine/{id}', [ProductLineController::class, 'showSingle']);
-    Route::put('productsLine/{id}', [ProductLineController::class, 'update'])->middleware('admin');
+    // Route::put('productsLine/{id}', [ProductLineController::class, 'update'])->middleware('admin');
     Route::delete('productsLine/{id}', [ProductLineController::class, 'destroy']);
 
     // Routes for products
@@ -100,11 +100,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     // Route for reservation
-    Route::get('reservations', [ReservationController::class, 'showAll']);
-    Route::get('reservations/{id}', [ReservationController::class, 'showSingle']);
-    Route::post('reservations', [ReservationController::class, 'store']);
-    Route::put('reservations/{id}', [ReservationController::class, 'update']);
-    Route::delete('reservations/{id}', [ReservationController::class, 'destroy']);
+    Route::get('reservations', [ReservationController::class, 'showAll'])->middleware('admin');
+    // Route::get('reservations/{id}', [ReservationController::class, 'showSingle']);
+    // Route::post('reservations', [ReservationController::class, 'store']);
+    // Route::put('reservations/{id}', [ReservationController::class, 'update']);
+    // Route::delete('reservations/{id}', [ReservationController::class, 'destroy']);
 
     // Route for users
     Route::get('users', [UserController::class, 'showAll'])->middleware('admin');

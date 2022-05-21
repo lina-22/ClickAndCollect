@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            // $table->dateTime('dateTime');
             $table->string('reference');
             $table->string('status');
+            $table->string('expire_date');
             $table->timestamps();
         });
     }
