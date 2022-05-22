@@ -54,6 +54,7 @@ class ProductLineController extends Controller
         $validator = Validator::make($request->all(), [
             'quantity' => 'required|integer',
             'product_available_id' => 'required|integer',
+            // 'reservation_id' => 'required|integer',
             'product_id' => 'required|integer'
         ]);
 
