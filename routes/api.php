@@ -123,7 +123,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('roles/{id}', [RoleController::class, 'update'])->middleware('superAdmin');
     Route::delete('roles/{id}', [RoleController::class, 'destroy'])->middleware('superAdmin');
 
-    // end****
+    // ***************************************end*******************************************
 });
 
 
