@@ -29,6 +29,36 @@ class ReservationController extends Controller
         return response()->json($res);
       }
 
+      public function changeStatus(Request $request, $id)
+      {
+          $res = [
+              'status' => false,
+              'data' => null,
+              'message' => ''
+          ];
+          $validator = Validator::make($request->all(), [
+              'status' => 'string|required'
+          ]);
+          if ($validator->fails()) {
+              $res['message'] = $validator->errors()->first();
+          } else {
+              $reservation = Reservation::find($id);
+              if (!$reservation) {
+                  $res['message'] = "Reservation not found";
+              } else {
+                  $reservation->status = $request->status;
+
+                  $reservation->save();
+                  $res['status'] = 'true';
+                  $res['data'] = new ReservationResource($reservation);
+                  $res['message'] = 'Reservation Status Changed successfully!';
+              }
+          }
+          return response()->json($res);
+      }
+
+
+
       public function showSingle($id){
           $res = [
               'status' => false,

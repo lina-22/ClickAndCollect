@@ -101,6 +101,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Route for reservation
     Route::get('reservations', [ReservationController::class, 'showAll'])->middleware('admin');
+    Route::put('reservations/{id}', [ReservationController::class, 'changeStatus'])->middleware('admin');
     // Route::get('reservations/{id}', [ReservationController::class, 'showSingle']);
     // Route::post('reservations', [ReservationController::class, 'store']);
     // Route::put('reservations/{id}', [ReservationController::class, 'update']);

@@ -117,7 +117,7 @@ class ProductController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|unique:products',
+            'name' => 'required|string|unique:products,name,'.$id,
             'price' => 'numeric',
             'discount' => 'integer|nullable',
             'image' => 'image|nullable|sometimes',
@@ -136,6 +136,7 @@ class ProductController extends Controller
                 $product->price = round($request->price , 2);
                 $product->discount = $request->discount;
                 $product->description = $request->description;
+                $product->is_featured = $request->is_featured;
                 if ($image_file = $request->file('image')) {
                     if (file_exists(public_path() . "/uploads/images/" . $product->image)) {
                         @unlink(public_path() . "/uploads/images/" . $product->image);
@@ -148,7 +149,7 @@ class ProductController extends Controller
                 $product->save();
                 $res['status'] = true;
                 $res['data'] = new ProductResource($product);
-                $res['message'] = "Product UUpdate Succefull!";
+                $res['message'] = "Product Update Successful!";
             }
 
         }
