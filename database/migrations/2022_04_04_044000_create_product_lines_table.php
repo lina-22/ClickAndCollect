@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('reservation_id');
             $table->unsignedBigInteger('product_available_id');
-            $table->unsignedBigInteger('product_id');
+            // $table->unsignedBigInteger('product_id'); 2605
             $table->integer('quantity');
             $table->timestamps();
 
             $table->index('reservation_id');
             $table->index('product_available_id');
-            $table->index('product_id');
+            // $table->index('product_id'); 2605
 
             $table->foreign('reservation_id')->on('reservations')->references('id')->onDelete('cascade');
         });

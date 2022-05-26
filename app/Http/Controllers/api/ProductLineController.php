@@ -52,10 +52,10 @@ class ProductLineController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'quantity' => 'required|integer',
+            'quantity' => 'required|integer|min:0',
             'product_available_id' => 'required|integer',
 
-            'product_id' => 'required|integer'
+            // 'product_id' => 'required|integer' 2605
         ]);
 
         if ($validator->fails()) {
@@ -226,7 +226,7 @@ class ProductLineController extends Controller
             $productLine = new ProductLine();
             $productLine->quantity = $request->quantity;
             $productLine->product_available_id = $request->product_available_id;
-            $productLine->product_id = $request->product_id;
+            // $productLine->product_id = $request->product_id; 26/05
             $productLine->reservation_id = $reservation->id;
             $productLine->save();
         }

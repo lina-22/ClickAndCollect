@@ -10,7 +10,8 @@ class ProductAvailable extends Model
     use HasFactory;
 
     public function products(){
-        return $this->belongsTo(Product::class);
+        // return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class,"product_id");
     }
 
     public function reservation(){

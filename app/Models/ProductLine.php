@@ -14,10 +14,10 @@ class ProductLine extends Model
         return $this->belongsTo(Reservation::class);
     }
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
+    // public function product()
+    // {
+    //     return $this->belongsTo(Product::class);
+    // } 26/05
 
     public function proAvl(){
         return $this->belongsTo(ProductAvailable::class, 'product_available_id');

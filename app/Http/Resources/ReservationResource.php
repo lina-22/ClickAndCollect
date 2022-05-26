@@ -14,6 +14,20 @@ class ReservationResource extends JsonResource
      */
     public function toArray($request)
     {
+        // $productLines = [];
+        // foreach ($this->productLines as $p_line) {
+
+        //     $data = [
+        //         'id' => $p_line->id,
+        //         'colour' => $p_line->proAvl->colour,
+        //         'quantity' => $p_line->quantity,
+        //         'size' => $p_line->proAvl->size,
+        //         'product' => $p_line->product,
+        //         'totalPrice' =>  round($p_line->product->price - $p_line->product->price * $p_line->product->discount / 100, 2) * $p_line->quantity
+
+        //     ];
+        //     array_push($productLines, $data); 2506
+
         $productLines = [];
         foreach ($this->productLines as $p_line) {
 
@@ -22,12 +36,11 @@ class ReservationResource extends JsonResource
                 'colour' => $p_line->proAvl->colour,
                 'quantity' => $p_line->quantity,
                 'size' => $p_line->proAvl->size,
-                'product' => $p_line->product,
-                'totalPrice' =>  round($p_line->product->price - $p_line->product->price * $p_line->product->discount / 100, 2) * $p_line->quantity
+                'product' => $p_line->proAvl->products,
+                'totalPrice' =>  round($p_line->proAvl->products->price - $p_line->proAvl->products->price * $p_line->proAvl->products->discount / 100, 2) * $p_line->quantity
 
             ];
             array_push($productLines, $data);
-
         }
 
 
