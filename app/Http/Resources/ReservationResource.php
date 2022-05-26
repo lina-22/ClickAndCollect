@@ -27,6 +27,7 @@ class ReservationResource extends JsonResource
 
             ];
             array_push($productLines, $data);
+
         }
 
 
