@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->boolean('is_featured')->default(0);
-            $table->string('image')->nullable();
+            $table->boolean('is_featured')->default(0);/*this line should delete as we will cut cat images */
+            $table->string('image')->nullable();/*this line should delete as we will cut cat images */
             $table->timestamps();
         });
     }

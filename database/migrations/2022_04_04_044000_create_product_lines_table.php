@@ -13,17 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_lines', function (Blueprint $table) {
-            $table->id();
+        Schema::create('product_line', function (Blueprint $table) {
+            //$table->id();
             $table->unsignedBigInteger('reservation_id');
             $table->unsignedBigInteger('product_available_id');
-            // $table->unsignedBigInteger('product_id'); 2605
+            //$table->unsignedBigInteger('product_id');
             $table->integer('quantity');
             $table->timestamps();
 
             $table->index('reservation_id');
             $table->index('product_available_id');
-            // $table->index('product_id'); 2605
+            $table->primary(['reservation_id','product_available_id']);
+            //$table->index('product_id');
 
             $table->foreign('reservation_id')->on('reservations')->references('id')->onDelete('cascade');
         });

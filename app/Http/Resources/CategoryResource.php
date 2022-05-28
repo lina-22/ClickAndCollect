@@ -30,7 +30,6 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'image' => $this->image,
-            'is_featured' => $this->is_featured,
             'products' => $products
         ];
     }

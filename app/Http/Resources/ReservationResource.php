@@ -14,30 +14,17 @@ class ReservationResource extends JsonResource
      */
     public function toArray($request)
     {
-        // $productLines = [];
-        // foreach ($this->productLines as $p_line) {
-
-        //     $data = [
-        //         'id' => $p_line->id,
-        //         'colour' => $p_line->proAvl->colour,
-        //         'quantity' => $p_line->quantity,
-        //         'size' => $p_line->proAvl->size,
-        //         'product' => $p_line->product,
-        //         'totalPrice' =>  round($p_line->product->price - $p_line->product->price * $p_line->product->discount / 100, 2) * $p_line->quantity
-
-        //     ];
-        //     array_push($productLines, $data); 2506
-
         $productLines = [];
         foreach ($this->productLines as $p_line) {
-
+            //dd($p_line);
             $data = [
-                'id' => $p_line->id,
-                'colour' => $p_line->proAvl->colour,
-                'quantity' => $p_line->quantity,
-                'size' => $p_line->proAvl->size,
-                'product' => $p_line->proAvl->products,
-                'totalPrice' =>  round($p_line->proAvl->products->price - $p_line->proAvl->products->price * $p_line->proAvl->products->discount / 100, 2) * $p_line->quantity
+                'reservation_id'=>$this->id,
+                'product_available_id'=> $p_line->id,
+                'colour' => $p_line->colour,
+                'quantity' => $p_line->pivot->quantity,
+                'size' => $p_line->size,
+                'product' => $p_line->products,
+                'totalPrice' =>  round($p_line->products->price - $p_line->products->price * $p_line->products->discount / 100, 2) * $p_line->pivot->quantity
 
             ];
             array_push($productLines, $data);

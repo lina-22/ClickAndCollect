@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductLineController extends Controller
 {
+
     public function showAll()
     {
         $res = [
@@ -24,7 +25,8 @@ class ProductLineController extends Controller
 
         $user = Auth::user(); // Find Loggedin User
 
-        if ($user) {
+
+      if ($user) {
 
             // Find Previous Active Reservation
             $reservation = Reservation::where('user_id', $user->id)->where('status', 'Active')->first();
@@ -37,8 +39,9 @@ class ProductLineController extends Controller
                 $res['data'] = [];
                 $res['message'] = "No Reservation!";
             }
-        } else {
-            $res['message'] = "Un Auhorized!";
+        }
+        else {
+           $res['message'] = "Un Auhorized!";
         }
         return response()->json($res);
     }
@@ -54,8 +57,6 @@ class ProductLineController extends Controller
         $validator = Validator::make($request->all(), [
             'quantity' => 'required|integer|min:0',
             'product_available_id' => 'required|integer',
-
-            // 'product_id' => 'required|integer' 2605
         ]);
 
         if ($validator->fails()) {
@@ -64,7 +65,7 @@ class ProductLineController extends Controller
 
             $user = Auth::user(); // Find Loggedin User
 
-            if ($user) {
+           if ($user) {
 
                 // Find Previous Active Reservation
 
@@ -89,7 +90,7 @@ class ProductLineController extends Controller
                     $res['status'] = true;
                     $res['data'] = new ReservationResource($reservation);
                     $res['message'] = "Product Added To Reservation!";
-                }
+                 }
             } else {
                 $res['message'] = "Un Auhorized!";
             }
@@ -106,10 +107,12 @@ class ProductLineController extends Controller
             'message' => ''
         ];
 
-        $productline_id = $request->productline_id;
+
         $amount = $request->amount;
         if ($amount) {
-            $productLine = ProductLine::find($productline_id);
+
+
+            $productLine = ProductLine::where('reservation_id', $request->reservation_id)->where('product_available_id', $request->product_available_id)->first();
 
 
             if ($productLine) {
@@ -120,10 +123,13 @@ class ProductLineController extends Controller
                     $res['message'] = 'Product Amount Not Available!';
                 } else {
                     $product_available->quantity = $product_available->quantity -  $amount;
+
                     $product_available->save();
 
                     $productLine->quantity = $productLine->quantity + $amount;
-                    $productLine->save();
+
+                    $product_available->productLines()->updateExistingPivot($request->reservation_id, ["quantity"=>$productLine->quantity]);
+
 
                     $res['status'] = true;
                     $res['data'] = new ReservationResource($productLine->reservation);
@@ -146,11 +152,10 @@ class ProductLineController extends Controller
             'message' => ''
         ];
 
-        $productline_id = $request->productline_id;
-        $product_id = $request->product_id;
         $amount = $request->amount;
         if ($amount) {
-            $productLine = ProductLine::find($productline_id);
+            //$productLine = ProductLine::find($productline_id);
+            $productLine = ProductLine::where('reservation_id', $request->reservation_id)->where('product_available_id', $request->product_available_id)->first();
 
             if ($productLine) {
                 $product_available = ProductAvailable::find($productLine->product_available_id);
@@ -161,7 +166,8 @@ class ProductLineController extends Controller
                     $product_available->save();
 
                     $productLine->quantity = $productLine->quantity - $amount;
-                    $productLine->save();
+
+                    $product_available->productLines()->updateExistingPivot($request->reservation_id, ["quantity"=>$productLine->quantity]);
 
                     $res['status'] = true;
                     $res['data'] = new ReservationResource($productLine->reservation);
@@ -177,14 +183,15 @@ class ProductLineController extends Controller
         return response()->json($res);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         $res = [
             'status' => false,
             'data' => null,
             'message' => ''
         ];
-        $productLine = ProductLine::find($id);
+
+        $productLine = ProductLine::where('reservation_id', $request->reservation_id)->where('product_available_id', $request->product_available_id)->first();
 
         if (!$productLine) {
             $res['message'] = 'ProductLine not found';
@@ -197,7 +204,9 @@ class ProductLineController extends Controller
             $product_available->quantity = $product_available->quantity +  $productLine->quantity;
             $product_available->save();
 
-            $productLine->delete();
+            //$productLine->delete();
+
+            $product_available->productLines()->detach($request->reservation_id);
 
             //6. here at the res variable we will give the true inf rather than by default information save at response variable
             $res['status'] = true;
@@ -217,7 +226,7 @@ class ProductLineController extends Controller
             $product_available->save();
 
             $productLine->quantity = $productLine->quantity + $request->quantity;
-            $productLine->save();
+            $product_available->productLines()->updateExistingPivot($request->reservation_id, ["quantity"=>$productLine->quantity]);
         } else {
 
             $product_available->quantity = $product_available->quantity -  $request->quantity;
@@ -226,9 +235,11 @@ class ProductLineController extends Controller
             $productLine = new ProductLine();
             $productLine->quantity = $request->quantity;
             $productLine->product_available_id = $request->product_available_id;
-            // $productLine->product_id = $request->product_id; 26/05
+
             $productLine->reservation_id = $reservation->id;
+
             $productLine->save();
+
         }
 
         return $productLine;

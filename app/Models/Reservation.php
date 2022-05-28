@@ -11,7 +11,11 @@ class Reservation extends Model
     // public function productAvailable(){
     //     return $this->belongsToMany(ProductAvailable::class,'productAvail_reservation');
     // }
-    public function productLines(){
-        return $this->hasMany(ProductLine::class, 'reservation_id');
+    // public function productLines(){
+    //     return $this->hasMany(ProductLine::class, 'reservation_id');
+    // }
+
+public function productLines(){
+        return $this->belongsToMany(ProductAvailable::class,"product_line")->using(ProductLine::class)->withPivot("quantity")->withTimestamps();
     }
 }

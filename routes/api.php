@@ -83,9 +83,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('productsLine/increment', [ProductLineController::class, 'quantityIncrement']);
     Route::post('productsLine/decrement', [ProductLineController::class,  'quantityDecrement']);
 
-    Route::get('productsLine/{id}', [ProductLineController::class, 'showSingle']);
+    // Route::get('productsLine/{id}', [ProductLineController::class, 'showSingle']);
     // Route::put('productsLine/{id}', [ProductLineController::class, 'update'])->middleware('admin');
-    Route::delete('productsLine/{id}', [ProductLineController::class, 'destroy']);
+    Route::delete('productsLine', [ProductLineController::class, 'destroy']);
 
     // Routes for products
     Route::post('products/{id}/attach_category', [ProductController::class, 'attachCategory'])->middleware('admin');
