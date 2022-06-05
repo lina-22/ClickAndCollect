@@ -97,7 +97,7 @@ class ProductController extends Controller
             $product->description = $request->description;
 
             $product->save();
-            //  created new unction as attach category so, ai line ta sync ata akany r dibo na 29/03/2022
+            //  created new function as attach category so, ai line ta sync ata akany r dibo na 29/03/2022
             // $product->categories()->sync($request->categories);
             $res['status'] = true;
             $res['data'] = new ProductResource($product);

@@ -19,17 +19,13 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->unsignedBigInteger('role_id');
             $table->string('email')->unique();
-            // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            
             $table->rememberToken();
             $table->timestamps();
-            
             $table->index('role_id');
-            $table->foreign('role_id')->on('roles')->references('id');
+            $table->foreign('role_id')->on('roles')->references('id')->onDelete('cascade')->onUpdate('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      *
